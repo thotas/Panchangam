@@ -179,7 +179,7 @@ struct ContentView: View {
             }
         }
         .padding(12)
-        .background(Color(hex: "#007AFF"))
+        .background(Color(hex: "#0A0A0A"))
     }
 
     private func quickActionButton(title: String, shortcut: String, action: @escaping () -> Void) -> some View {
