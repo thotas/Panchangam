@@ -139,7 +139,7 @@ struct ContentView: View {
                         Text(school.displayName).tag(school)
                     }
                 }
-                .pickerStyle(.segmented)
+                .pickerStyle(.menu)
                 .labelsHidden()
                 .onChange(of: selectedSchool) { _, _ in calculatePanchang() }
             }
