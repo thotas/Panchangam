@@ -104,15 +104,36 @@ struct ContentView: View {
                     .foregroundColor(.white.opacity(0.6))
                     .textCase(.uppercase)
 
-                Picker("", selection: $selectedLocation) {
+                Menu {
                     ForEach(LocationPreset.allCases) { loc in
-                        Text(loc.displayName).tag(loc).foregroundColor(.white)
+                        Button(action: {
+                            selectedLocation = loc
+                            calculatePanchang()
+                        }) {
+                            HStack {
+                                Text(loc.displayName)
+                                if selectedLocation == loc {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
                     }
+                } label: {
+                    HStack {
+                        Text(selectedLocation.displayName)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 10))
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color(hex: "#2C2C2E"))
+                    .cornerRadius(5)
                 }
-                .pickerStyle(.menu)
-                .labelsHidden()
-                .accentColor(.white)
-                .onChange(of: selectedLocation) { _, _ in calculatePanchang() }
+                .menuStyle(.borderlessButton)
             }
 
             // Date Picker
@@ -125,6 +146,7 @@ struct ContentView: View {
                 DatePicker("", selection: $selectedDate, displayedComponents: [.date])
                     .datePickerStyle(.compact)
                     .labelsHidden()
+                    .accentColor(.white)
                     .onChange(of: selectedDate) { _, _ in calculatePanchang() }
             }
 
@@ -135,15 +157,36 @@ struct ContentView: View {
                     .foregroundColor(.white.opacity(0.6))
                     .textCase(.uppercase)
 
-                Picker("", selection: $selectedSchool) {
+                Menu {
                     ForEach(SchoolPreset.allCases) { school in
-                        Text(school.displayName).tag(school).foregroundColor(.white)
+                        Button(action: {
+                            selectedSchool = school
+                            calculatePanchang()
+                        }) {
+                            HStack {
+                                Text(school.displayName)
+                                if selectedSchool == school {
+                                    Image(systemName: "checkmark")
+                                }
+                            }
+                        }
                     }
+                } label: {
+                    HStack {
+                        Text(selectedSchool.displayName)
+                            .font(.system(size: 12, weight: .medium))
+                            .foregroundColor(.white)
+                        Spacer()
+                        Image(systemName: "chevron.down")
+                            .font(.system(size: 10))
+                            .foregroundColor(.white.opacity(0.7))
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color(hex: "#2C2C2E"))
+                    .cornerRadius(5)
                 }
-                .pickerStyle(.menu)
-                .labelsHidden()
-                .accentColor(.white)
-                .onChange(of: selectedSchool) { _, _ in calculatePanchang() }
+                .menuStyle(.borderlessButton)
             }
 
             Spacer()
