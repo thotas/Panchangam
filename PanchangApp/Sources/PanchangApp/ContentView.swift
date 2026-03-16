@@ -23,7 +23,7 @@ struct ContentView: View {
                 resultsPanel
             }
         }
-        .frame(width: 700, height: 450)
+        .frame(minWidth: 600, minHeight: 400)
         .background(Color(hex: "#1C1C1E"))
         .onAppear {
             calculatePanchang()
@@ -167,7 +167,7 @@ struct ContentView: View {
             }
             .padding(.horizontal, 12)
             .padding(.vertical, 10)
-            .background(Color(hex: "#1E1E1E"))
+            .background(Color(hex: "#3C3C3E"))
             .cornerRadius(8)
             .foregroundColor(.white)
         }
