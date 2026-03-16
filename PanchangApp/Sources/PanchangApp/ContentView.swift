@@ -223,8 +223,8 @@ struct ContentView: View {
 
                         // Row 3: Tithi, Nakshatram
                         HStack(spacing: 10) {
-                            InfoTile(title: "Tithi", value: result.panchangam.tithi.components(separatedBy: " until").first ?? "", icon: "moon.circle.fill", color: .orange)
-                            InfoTile(title: "Nakshatram", value: result.panchangam.nakshatram.components(separatedBy: " until").first ?? "", icon: "sparkles", color: .pink)
+                            InfoTile(title: "Tithi", value: result.panchangam.tithi, icon: "moon.circle.fill", color: .orange)
+                            InfoTile(title: "Nakshatram", value: result.panchangam.nakshatram, icon: "sparkles", color: .pink)
                         }
 
                         // Row 4: Sunrise, Sunset
