@@ -7,9 +7,9 @@ public enum LocationPreset: Int32, CaseIterable, Identifiable {
     case houstonTx = 2
     case newJersey = 3
     case philadelphia = 4
-    
+
     public var id: Self { self }
-    
+
     public var displayName: String {
         switch self {
         case .hyderabad: return "Hyderabad"
@@ -25,9 +25,9 @@ public enum SchoolPreset: Int32, CaseIterable, Identifiable {
     case gantala = 0
     case nemani = 1
     case ttd = 2
-    
+
     public var id: Self { self }
-    
+
     public var displayName: String {
         switch self {
         case .gantala: return "Gantala"
@@ -45,36 +45,57 @@ public struct HeaderOut: Codable {
     public let school: String
 }
 
+public struct SunriseSunsetOut: Codable {
+    public let sunrise: String
+    public let sunset: String
+}
+
+public struct TimedResultOut: Codable {
+    public let start: String
+    public let end: String
+}
+
+public struct FestivalOut: Codable, Hashable, Identifiable {
+    public let name_en: String
+    public let name_te: String
+    public let is_ekadashi: Bool?
+
+    public var id: String { name_en }
+}
+
 public struct PanchangamOut: Codable {
     public let samvatsaram: String
     public let ayanam: String
     public let maasam: String
     public let vaaram: String
     public let tithi: String
+    public let paksha: String
     public let nakshatram: String
-}
-
-public struct FestivalOut: Codable, Hashable {
-    public let en: String
-    public let te: String
-}
-
-public struct PanchangResponse: Codable {
-    public let header: HeaderOut
-    public let panchangam: PanchangamOut
+    public let sunrise_sunset: SunriseSunsetOut?
+    public let varjyam: TimedResultOut?
+    public let durmuhurtam: TimedResultOut?
+    public let rahukalam: TimedResultOut?
     public let festivals: [FestivalOut]
 }
 
-public class PanchangEngine {
-    
-    public static func calculate(date: Date, location: LocationPreset, school: SchoolPreset) -> PanchangResponse? {
+public struct PankajamResponse: Codable {
+    public let header: HeaderOut
+    public let panchangam: PanchangamOut
+}
+
+// Legacy alias for compatibility
+public typealias PanchangResponse = PankajamResponse
+
+public class PankajamEngine {
+
+    public static func calculate(date: Date, location: LocationPreset, school: SchoolPreset) -> PankajamResponse? {
         let calendar = Calendar.current
         let components = calendar.dateComponents([.year, .month, .day], from: date)
-        
-        guard let year = components.year, 
-              let month = components.month, 
+
+        guard let year = components.year,
+              let month = components.month,
               let day = components.day else { return nil }
-        
+
         // Pass integers into Rust FFI
         guard let cStringPtr = get_panchang_json(
             Int32(year),
@@ -86,22 +107,22 @@ public class PanchangEngine {
             print("Engine returned null pointer")
             return nil
         }
-        
+
         // Ensure Rust frees the memory once we're done
         defer {
             free_json_string(cStringPtr)
         }
-        
+
         let jsonString = String(cString: cStringPtr)
-        
+
         guard let data = jsonString.data(using: .utf8) else {
             print("Failed to convert CString to Data")
             return nil
         }
-        
+
         do {
             let decoder = JSONDecoder()
-            let response = try decoder.decode(PanchangResponse.self, from: data)
+            let response = try decoder.decode(PankajamResponse.self, from: data)
             return response
         } catch {
             print("Failed to decode JSON from Rust: \(error)")
@@ -110,3 +131,6 @@ public class PanchangEngine {
         }
     }
 }
+
+// Legacy alias for compatibility
+public typealias PanchangEngine = PankajamEngine
