@@ -8,12 +8,6 @@ struct ContentView: View {
     @State private var panchangResult: PankajamResponse? = nil
     @State private var isLoading = false
 
-    @FocusState private var focusedField: Field?
-
-    enum Field: Hashable {
-        case date, location, school
-    }
-
     var body: some View {
         ZStack {
             Color(hex: "#1C1C1E")
@@ -23,36 +17,14 @@ struct ContentView: View {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             } else if let result = panchangResult {
-                CompactResultView(
-                    result: result,
-                    selectedDate: $selectedDate,
-                    selectedLocation: $selectedLocation,
-                    selectedSchool: $selectedSchool,
-                    focusedField: focusedField,
-                    onDateChange: { calculatePanchang() }
-                )
+                ResultCardView(result: result)
             } else {
                 EmptyStateView(onCalculate: { calculatePanchang() })
             }
         }
-        .frame(width: 340, height: 380)
+        .frame(width: 380, height: 340)
         .onAppear {
             calculatePanchang()
-        }
-        .onKeyPress(.init("t")) {
-            selectedDate = Date()
-            calculatePanchang()
-            return .handled
-        }
-        .onKeyPress(.init("y")) {
-            selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? Date()
-            calculatePanchang()
-            return .handled
-        }
-        .onKeyPress(.init("n")) {
-            selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? Date()
-            calculatePanchang()
-            return .handled
         }
     }
 
@@ -72,196 +44,208 @@ struct ContentView: View {
     }
 }
 
-struct CompactResultView: View {
+struct ResultCardView: View {
     let result: PankajamResponse
-    @Binding var selectedDate: Date
-    @Binding var selectedLocation: LocationPreset
-    @Binding var selectedSchool: SchoolPreset
-    var focusedField: ContentView.Field?
-    let onDateChange: () -> Void
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Ultra-compact header
-            HStack(spacing: 4) {
-                DatePicker("", selection: $selectedDate, displayedComponents: [.date])
-                    .datePickerStyle(.compact)
-                    .labelsHidden()
-                    .scaleEffect(0.55)
-                    .onChange(of: selectedDate) { _, _ in onDateChange() }
-
-                Picker("", selection: $selectedLocation) {
-                    ForEach(LocationPreset.allCases) { loc in
-                        Text(loc.displayName.components(separatedBy: ",").first ?? "").tag(loc)
-                    }
-                }
-                .labelsHidden()
-                .frame(width: 70)
-                .onChange(of: selectedLocation) { _, _ in onDateChange() }
-
-                Picker("", selection: $selectedSchool) {
-                    ForEach(SchoolPreset.allCases) { school in
-                        Text(school.displayName).tag(school)
-                    }
-                }
-                .labelsHidden()
-                .frame(width: 40)
-                .onChange(of: selectedSchool) { _, _ in onDateChange() }
-
-                // Keyboard shortcuts help
-                Text("T|Y|N")
-                    .font(.system(size: 7, design: .monospaced))
-                    .foregroundColor(.gray.opacity(0.5))
-            }
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(Color(hex: "#2C2C2E"))
-
-            VStack(spacing: 4) {
-                // Samvatsaram, Ayanam, Maasam, Vaaram, Paksha
-                InfoCard(rows: [
-                    ("Samvatsaram", result.panchangam.samvatsaram),
-                    ("Ayanam", result.panchangam.ayanam),
-                    ("Maasam", result.panchangam.maasam),
-                    ("Vaaram", result.panchangam.vaaram.components(separatedBy: " (").first ?? ""),
-                    ("Paksha", result.panchangam.paksha)
-                ])
-
-                // Tithi, Nakshatram
-                InfoCard(rows: [
-                    ("Tithi", result.panchangam.tithi.components(separatedBy: " until").first ?? ""),
-                    ("Nakshatram", result.panchangam.nakshatram.components(separatedBy: " until").first ?? "")
-                ])
-
-                // Sunrise, Sunset
-                HStack(spacing: 4) {
-                    if let ss = result.panchangam.sunrise_sunset {
-                        TimeCard(icon: "sunrise.fill", title: "Sunrise", time: ss.sunrise, color: .yellow)
-                        TimeCard(icon: "sunset.fill", title: "Sunset", time: ss.sunset, color: .orange)
-                    }
-                }
-
-                // Muhurtam
-                HStack(spacing: 4) {
-                    if let v = result.panchangam.varjyam {
-                        MuhurtCard(title: "Varjyam", time: "\(v.start)-\(v.end)", isGood: true)
-                    }
-                    if let r = result.panchangam.rahukalam {
-                        MuhurtCard(title: "Rahukalam", time: "\(r.start)-\(r.end)", isGood: false)
-                    }
-                    if let d = result.panchangam.durmuhurtam {
-                        MuhurtCard(title: "Durmuhurtam", time: "\(d.start)-\(d.end)", isGood: false)
-                    }
-                }
-
-                // Festivals
-                if !result.panchangam.festivals.isEmpty {
-                    FestivalCard(festivals: result.panchangam.festivals)
-                }
-            }
-            .padding(4)
-        }
-    }
-}
-
-struct InfoCard: View {
-    let rows: [(String, String)]
-
-    var body: some View {
-        HStack(spacing: 0) {
-            ForEach(rows, id: \.0) { row in
-                VStack(spacing: 2) {
-                    Text(row.1)
-                        .font(.system(size: 9, weight: .bold))
+        VStack(spacing: 12) {
+            // Header
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text(result.header.location)
+                        .font(.system(size: 18, weight: .bold))
                         .foregroundColor(.white)
-                        .lineLimit(1)
-                    Text(row.0)
-                        .font(.system(size: 6, weight: .medium))
+                    Text(result.header.coordinates)
+                        .font(.system(size: 11))
                         .foregroundColor(.gray)
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 6)
-                if row.0 != rows.last?.0 {
-                    Divider()
-                        .background(Color.white.opacity(0.1))
+                Spacer()
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text(formatDate(Date()))
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.orange)
+                    Text(result.header.school)
+                        .font(.system(size: 11))
+                        .foregroundColor(.gray)
                 }
             }
+            .padding(.horizontal, 16)
+            .padding(.top, 16)
+
+            Divider()
+                .background(Color.white.opacity(0.1))
+
+            // Main grid - 2x2
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                DataTile(title: "Vaaram", value: result.panchangam.vaaram.components(separatedBy: " (").first ?? "", icon: "calendar", color: .cyan)
+                DataTile(title: "Paksha", value: result.panchangam.paksha, icon: "moonphase.first.quarter", color: .purple)
+                DataTile(title: "Maasam", value: result.panchangam.maasam, icon: "moon.stars.fill", color: .orange)
+                DataTile(title: "Samvatsaram", value: result.panchangam.samvatsaram, icon: "sun.dust.fill", color: .yellow)
+            }
+            .padding(.horizontal, 16)
+
+            // Tithi & Nakshatram
+            HStack(spacing: 10) {
+                DetailTile(title: "Tithi", value: result.panchangam.tithi.components(separatedBy: " until").first ?? "", icon: "moon.circle.fill")
+                DetailTile(title: "Nakshatram", value: result.panchangam.nakshatram.components(separatedBy: " until").first ?? "", icon: "sparkles")
+            }
+            .padding(.horizontal, 16)
+
+            // Sunrise/Sunset
+            if let ss = result.panchangam.sunrise_sunset {
+                HStack(spacing: 10) {
+                    TimeTile(icon: "sunrise.fill", title: "Sunrise", time: ss.sunrise, color: .yellow)
+                    TimeTile(icon: "sunset.fill", title: "Sunset", time: ss.sunset, color: .orange)
+                }
+                .padding(.horizontal, 16)
+            }
+
+            // Muhurtam
+            HStack(spacing: 8) {
+                if let v = result.panchangam.varjyam {
+                    MuhurtTile(title: "Varjyam", time: "\(v.start)-\(v.end)", isGood: true)
+                }
+                if let r = result.panchangam.rahukalam {
+                    MuhurtTile(title: "Rahukalam", time: "\(r.start)-\(r.end)", isGood: false)
+                }
+                if let d = result.panchangam.durmuhurtam {
+                    MuhurtTile(title: "Durmuhurtam", time: "\(d.start)-\(d.end)", isGood: false)
+                }
+            }
+            .padding(.horizontal, 16)
+
+            // Festivals
+            if !result.panchangam.festivals.isEmpty {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Festivals")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(.gray)
+                        .textCase(.uppercase)
+
+                    ForEach(result.panchangam.festivals.prefix(2)) { festival in
+                        HStack {
+                            Image(systemName: festival.is_ekadashi == true ? "moon.stars.fill" : "sparkles")
+                                .font(.system(size: 10))
+                                .foregroundColor(festival.is_ekadashi == true ? .orange : .yellow)
+                            Text(festival.name_en)
+                                .font(.system(size: 11, weight: .medium))
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                    }
+                }
+                .padding(.horizontal, 16)
+                .padding(.bottom, 12)
+            } else {
+                Spacer()
+            }
         }
-        .background(Color(hex: "#2C2C2E"))
-        .cornerRadius(6)
+    }
+
+    private func formatDate(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd MMM yyyy"
+        return formatter.string(from: date)
     }
 }
 
-struct TimeCard: View {
+struct DataTile: View {
+    let title: String
+    let value: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        VStack(spacing: 6) {
+            Image(systemName: icon)
+                .font(.system(size: 20))
+                .foregroundColor(color)
+            Text(value)
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(.white)
+                .lineLimit(1)
+            Text(title)
+                .font(.system(size: 10, weight: .medium))
+                .foregroundColor(.gray)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 14)
+        .background(Color(hex: "#2C2C2E"))
+        .cornerRadius(12)
+    }
+}
+
+struct DetailTile: View {
+    let title: String
+    let value: String
+    let icon: String
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.system(size: 18))
+                .foregroundColor(.orange)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.gray)
+                Text(value)
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundColor(.white)
+            }
+            Spacer()
+        }
+        .padding(12)
+        .background(Color(hex: "#2C2C2E"))
+        .cornerRadius(10)
+    }
+}
+
+struct TimeTile: View {
     let icon: String
     let title: String
     let time: String
     let color: Color
 
     var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 8) {
             Image(systemName: icon)
-                .font(.system(size: 10))
+                .font(.system(size: 16))
                 .foregroundColor(color)
-            VStack(alignment: .leading, spacing: 1) {
+            VStack(alignment: .leading, spacing: 2) {
                 Text(title)
-                    .font(.system(size: 6, weight: .medium))
+                    .font(.system(size: 10, weight: .medium))
                     .foregroundColor(.gray)
                 Text(time)
-                    .font(.system(size: 10, weight: .semibold, design: .monospaced))
+                    .font(.system(size: 15, weight: .semibold, design: .monospaced))
                     .foregroundColor(.white)
             }
             Spacer()
         }
-        .padding(6)
-        .frame(maxWidth: .infinity)
+        .padding(12)
         .background(Color(hex: "#2C2C2E"))
-        .cornerRadius(6)
+        .cornerRadius(10)
     }
 }
 
-struct MuhurtCard: View {
+struct MuhurtTile: View {
     let title: String
     let time: String
     let isGood: Bool
 
     var body: some View {
-        VStack(spacing: 2) {
+        VStack(spacing: 4) {
             Text(title)
-                .font(.system(size: 6, weight: .medium))
+                .font(.system(size: 9, weight: .medium))
                 .foregroundColor(.gray)
             Text(time)
-                .font(.system(size: 8, weight: .semibold, design: .monospaced))
+                .font(.system(size: 11, weight: .semibold, design: .monospaced))
                 .foregroundColor(isGood ? Color(hex: "#4CAF50") : Color(hex: "#FF5252"))
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 6)
+        .padding(.vertical, 12)
         .background(Color(hex: "#3C3C3E"))
-        .cornerRadius(6)
-    }
-}
-
-struct FestivalCard: View {
-    let festivals: [FestivalOut]
-
-    var body: some View {
-        HStack(spacing: 4) {
-            ForEach(festivals.prefix(3)) { festival in
-                HStack(spacing: 3) {
-                    Image(systemName: festival.is_ekadashi == true ? "moon.stars.fill" : "sparkles")
-                        .font(.system(size: 8))
-                        .foregroundColor(festival.is_ekadashi == true ? .orange : .yellow)
-                    Text(festival.name_en)
-                        .font(.system(size: 8, weight: .medium))
-                        .foregroundColor(.white)
-                        .lineLimit(1)
-                }
-                .padding(.horizontal, 6)
-                .padding(.vertical, 4)
-                .background(Color(hex: "#2C2C2E"))
-                .cornerRadius(4)
-            }
-        }
+        .cornerRadius(10)
     }
 }
 
@@ -269,17 +253,16 @@ struct EmptyStateView: View {
     let onCalculate: () -> Void
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 16) {
             Image(systemName: "moon.stars.fill")
-                .font(.system(size: 24))
+                .font(.system(size: 48))
                 .foregroundColor(.orange.opacity(0.6))
             Text("Panchang")
-                .font(.system(size: 14, weight: .bold))
+                .font(.system(size: 22, weight: .bold))
                 .foregroundColor(.white)
             Button("Calculate", action: onCalculate)
                 .buttonStyle(.borderedProminent)
                 .tint(.orange)
-                .controlSize(.small)
         }
     }
 }
