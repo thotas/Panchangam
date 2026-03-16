@@ -1,0 +1,366 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0811CEEAF0F421308D5F163B /* PanchangApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A91F9C16159859A735C58E4 /* PanchangApp.swift */; };
+		369BB51A925A54DEFFDB1744 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F967F393FC9162577B74B44D /* SwiftUI.framework */; };
+		60483031974F9E2AEB3CDBCD /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C05332603E93CE08FD3FB25 /* AppKit.framework */; };
+		D71F613CB44207061C205318 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB04FA051C25B70425F205F7 /* ContentView.swift */; };
+		DFEB2342E7719511276C1496 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C978A0181B1647D2382BD5F9 /* Foundation.framework */; };
+		E2C37710FDB69071ACB16397 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1185DD2AE6370714574B1918 /* ResultView.swift */; };
+		FC3753703DA2BD29A9D890E0 /* PanchangEngineWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCD1FB7C13DFBE2ED5F68D9B /* PanchangEngineWrapper.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1185DD2AE6370714574B1918 /* ResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultView.swift; sourceTree = "<group>"; };
+		144C1A30A47BBFF535FA64EF /* PanchangApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PanchangApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C05332603E93CE08FD3FB25 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		4F880014C979825BC93DF547 /* PanchangApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PanchangApp.entitlements; sourceTree = "<group>"; };
+		7A91F9C16159859A735C58E4 /* PanchangApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanchangApp.swift; sourceTree = "<group>"; };
+		C978A0181B1647D2382BD5F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		CB04FA051C25B70425F205F7 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		CCD1FB7C13DFBE2ED5F68D9B /* PanchangEngineWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanchangEngineWrapper.swift; sourceTree = "<group>"; };
+		F967F393FC9162577B74B44D /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		FC57480C1D25BEF1F99894EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E02E41A8A7A20EFC62C2671F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				369BB51A925A54DEFFDB1744 /* SwiftUI.framework in Frameworks */,
+				DFEB2342E7719511276C1496 /* Foundation.framework in Frameworks */,
+				60483031974F9E2AEB3CDBCD /* AppKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		54A82C51A86A4FD0ED7D0D7C = {
+			isa = PBXGroup;
+			children = (
+				A5F1635824249C7638E0174C /* PanchangApp */,
+				F7D7CBFEAD616C906A984ADC /* Frameworks */,
+				A8F059B9D2C7FB817C0543FE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A5F1635824249C7638E0174C /* PanchangApp */ = {
+			isa = PBXGroup;
+			children = (
+				CB04FA051C25B70425F205F7 /* ContentView.swift */,
+				FC57480C1D25BEF1F99894EB /* Info.plist */,
+				4F880014C979825BC93DF547 /* PanchangApp.entitlements */,
+				7A91F9C16159859A735C58E4 /* PanchangApp.swift */,
+				CCD1FB7C13DFBE2ED5F68D9B /* PanchangEngineWrapper.swift */,
+				1185DD2AE6370714574B1918 /* ResultView.swift */,
+			);
+			name = PanchangApp;
+			path = Sources/PanchangApp;
+			sourceTree = "<group>";
+		};
+		A8F059B9D2C7FB817C0543FE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				144C1A30A47BBFF535FA64EF /* PanchangApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F7D7CBFEAD616C906A984ADC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C05332603E93CE08FD3FB25 /* AppKit.framework */,
+				C978A0181B1647D2382BD5F9 /* Foundation.framework */,
+				F967F393FC9162577B74B44D /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3DD79DAA428918E9F84A3C33 /* PanchangApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B98D43F033046214FE38C4B7 /* Build configuration list for PBXNativeTarget "PanchangApp" */;
+			buildPhases = (
+				9F09499041DC6E874478125D /* Sources */,
+				E02E41A8A7A20EFC62C2671F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PanchangApp;
+			packageProductDependencies = (
+			);
+			productName = PanchangApp;
+			productReference = 144C1A30A47BBFF535FA64EF /* PanchangApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0689DA8526772DE5A86F8E3A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					3DD79DAA428918E9F84A3C33 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = D9F697C56B44968515AEB9B5 /* Build configuration list for PBXProject "PanchangApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 54A82C51A86A4FD0ED7D0D7C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3DD79DAA428918E9F84A3C33 /* PanchangApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		9F09499041DC6E874478125D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D71F613CB44207061C205318 /* ContentView.swift in Sources */,
+				0811CEEAF0F421308D5F163B /* PanchangApp.swift in Sources */,
+				FC3753703DA2BD29A9D890E0 /* PanchangEngineWrapper.swift in Sources */,
+				E2C37710FDB69071ACB16397 /* ResultView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		426BFD1FDD256819DC8E189E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/PanchangApp/PanchangApp.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Sources/panchang_engine/include",
+				);
+				INFOPLIST_FILE = Sources/PanchangApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Sources/panchang_engine",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-lpanchang_engine_universal",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.panchang.app;
+				PRODUCT_NAME = PanchangApp;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Debug;
+		};
+		6A61F173A7A150C6E15D1B79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		D33BAC496B0861B81467D1B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Sources/PanchangApp/PanchangApp.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/Sources/panchang_engine/include",
+				);
+				INFOPLIST_FILE = Sources/PanchangApp/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"@executable_path/../Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(SRCROOT)/Sources/panchang_engine",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"-lpanchang_engine_universal",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.panchang.app;
+				PRODUCT_NAME = PanchangApp;
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+			};
+			name = Release;
+		};
+		D75467938D8EFE9197858FFE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B98D43F033046214FE38C4B7 /* Build configuration list for PBXNativeTarget "PanchangApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				426BFD1FDD256819DC8E189E /* Debug */,
+				D33BAC496B0861B81467D1B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D9F697C56B44968515AEB9B5 /* Build configuration list for PBXProject "PanchangApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D75467938D8EFE9197858FFE /* Debug */,
+				6A61F173A7A150C6E15D1B79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0689DA8526772DE5A86F8E3A /* Project object */;
+}
