@@ -223,8 +223,8 @@ struct ContentView: View {
 
                         // Row 3: Tithi, Nakshatram
                         HStack(spacing: 10) {
-                            InfoTile(title: "Tithi", value: result.panchangam.tithi, icon: "moon.circle.fill", color: .orange)
-                            InfoTile(title: "Nakshatram", value: result.panchangam.nakshatram, icon: "sparkles", color: .pink)
+                            TithiTile(title: "Tithi", value: result.panchangam.tithi, icon: "moon.circle.fill", color: .orange)
+                            NakshatramTile(title: "Nakshatram", value: result.panchangam.nakshatram, icon: "sparkles", color: .pink)
                         }
 
                         // Row 4: Sunrise, Sunset
@@ -334,6 +334,104 @@ struct InfoTile: View {
         .padding(10)
         .background(Color(hex: "#1E1E1E"))
         .cornerRadius(7)
+    }
+}
+
+// MARK: - Tithi Tile (with subscript until)
+struct TithiTile: View {
+    let title: String
+    let value: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.system(size: 14))
+                .foregroundColor(color)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title)
+                    .font(.system(size: 9, weight: .medium))
+                    .foregroundColor(.gray)
+                tithiText
+            }
+            Spacer()
+        }
+        .padding(10)
+        .background(Color(hex: "#1E1E1E"))
+        .cornerRadius(7)
+    }
+
+    @ViewBuilder
+    private var tithiText: some View {
+        if let untilIndex = value.range(of: " until ") {
+            let namePart = String(value[..<untilIndex.lowerBound])
+            let timePart = String(value[untilIndex.upperBound...])
+            HStack(alignment: .firstTextBaseline, spacing: 2) {
+                Text(namePart)
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundColor(.white)
+                Text("until")
+                    .font(.system(size: 9, weight: .medium))
+                    .foregroundColor(.gray)
+                Text(timePart)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.orange)
+            }
+        } else {
+            Text(value)
+                .font(.system(size: 13, weight: .bold))
+                .foregroundColor(.white)
+        }
+    }
+}
+
+// MARK: - Nakshatram Tile (with subscript until)
+struct NakshatramTile: View {
+    let title: String
+    let value: String
+    let icon: String
+    let color: Color
+
+    var body: some View {
+        HStack(spacing: 10) {
+            Image(systemName: icon)
+                .font(.system(size: 14))
+                .foregroundColor(color)
+            VStack(alignment: .leading, spacing: 1) {
+                Text(title)
+                    .font(.system(size: 9, weight: .medium))
+                    .foregroundColor(.gray)
+                nakshatramText
+            }
+            Spacer()
+        }
+        .padding(10)
+        .background(Color(hex: "#1E1E1E"))
+        .cornerRadius(7)
+    }
+
+    @ViewBuilder
+    private var nakshatramText: some View {
+        if let untilIndex = value.range(of: " until ") {
+            let namePart = String(value[..<untilIndex.lowerBound])
+            let timePart = String(value[untilIndex.upperBound...])
+            HStack(alignment: .firstTextBaseline, spacing: 2) {
+                Text(namePart)
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundColor(.white)
+                Text("until")
+                    .font(.system(size: 9, weight: .medium))
+                    .foregroundColor(.gray)
+                Text(timePart)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.orange)
+            }
+        } else {
+            Text(value)
+                .font(.system(size: 13, weight: .bold))
+                .foregroundColor(.white)
+        }
     }
 }
 
