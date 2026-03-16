@@ -10,171 +10,95 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 0) {
-            // Header panel (spans across both panels)
-            headerPanel
+            // Header: Title + Location + Date (centered)
+            headerSection
 
-            // 2 Vertical Panels
-            HSplitView {
-                // 1st Panel - Controls
-                controlsPanel
-                    .frame(minWidth: 200, maxWidth: 250)
-
-                // 2nd Panel - Results
-                resultsPanel
-            }
+            // Results Panel
+            resultsPanel
         }
-        .frame(minWidth: 600, minHeight: 400)
+        .frame(minWidth: 500, minHeight: 450)
         .background(Color(hex: "#1C1C1E"))
         .onAppear {
             calculatePanchang()
         }
     }
 
-    // MARK: - Header Panel
-    private var headerPanel: some View {
-        HStack {
-            Image(systemName: "moon.stars.fill")
-                .font(.system(size: 20, weight: .semibold))
-                .foregroundStyle(.orange)
-            Text("Panchang")
-                .font(.system(size: 18, weight: .bold, design: .rounded))
-                .foregroundColor(.white)
+    // MARK: - Header Section (centered)
+    private var headerSection: some View {
+        VStack(spacing: 8) {
+            // Title
+            HStack {
+                Spacer()
+                HStack(spacing: 8) {
+                    Image(systemName: "moon.stars.fill")
+                        .font(.system(size: 22, weight: .semibold))
+                        .foregroundStyle(.orange)
+                    Text("Panchang")
+                        .font(.system(size: 22, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                }
+                Spacer()
+            }
 
-            Spacer()
+            // Location & Date (centered)
+            HStack(spacing: 20) {
+                // Location Picker
+                HStack(spacing: 6) {
+                    Image(systemName: "location.fill")
+                        .font(.system(size: 12))
+                        .foregroundColor(.orange)
+                    Picker("", selection: $selectedLocation) {
+                        ForEach(LocationPreset.allCases) { loc in
+                            Text(loc.displayName).tag(loc)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                    .labelsHidden()
+                    .frame(width: 150)
+                    .onChange(of: selectedLocation) { _, _ in calculatePanchang() }
+                }
 
-            Text(resultHeader)
-                .font(.system(size: 14, weight: .medium))
-                .foregroundColor(.white.opacity(0.8))
+                Text("|")
+                    .foregroundColor(.gray)
 
-            Text("•")
-                .foregroundColor(.gray)
+                // Date Picker
+                HStack(spacing: 6) {
+                    Image(systemName: "calendar")
+                        .font(.system(size: 12))
+                        .foregroundColor(.orange)
+                    DatePicker("", selection: $selectedDate, displayedComponents: [.date])
+                        .datePickerStyle(.compact)
+                        .labelsHidden()
+                        .onChange(of: selectedDate) { _, _ in calculatePanchang() }
+                }
 
-            Text(formattedDate)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundColor(.orange)
+                Text("|")
+                    .foregroundColor(.gray)
+
+                // School Picker
+                HStack(spacing: 6) {
+                    Image(systemName: "book.closed")
+                        .font(.system(size: 12))
+                        .foregroundColor(.orange)
+                    Picker("", selection: $selectedSchool) {
+                        ForEach(SchoolPreset.allCases) { school in
+                            Text(school.displayName).tag(school)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                    .frame(width: 180)
+                    .onChange(of: selectedSchool) { _, _ in calculatePanchang() }
+                }
+            }
+            .font(.system(size: 13, weight: .medium))
+            .foregroundColor(.white.opacity(0.9))
         }
+        .padding(.vertical, 16)
         .padding(.horizontal, 20)
-        .padding(.vertical, 12)
         .background(Color(hex: "#161616"))
     }
 
-    private var resultHeader: String {
-        panchangResult?.header.location ?? selectedLocation.displayName
-    }
-
-    private var formattedDate: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMM d, yyyy"
-        return formatter.string(from: selectedDate)
-    }
-
-    // MARK: - 1st Panel - Controls
-    private var controlsPanel: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            // Location
-            VStack(alignment: .leading, spacing: 8) {
-                Label("Location", systemImage: "location.fill")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(.gray)
-                    .textCase(.uppercase)
-
-                Picker("", selection: $selectedLocation) {
-                    ForEach(LocationPreset.allCases) { loc in
-                        Text(loc.displayName).tag(loc)
-                    }
-                }
-                .pickerStyle(.menu)
-                .onChange(of: selectedLocation) { _, _ in calculatePanchang() }
-            }
-
-            // Date
-            VStack(alignment: .leading, spacing: 8) {
-                Label("Date", systemImage: "calendar")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(.gray)
-                    .textCase(.uppercase)
-
-                DatePicker("", selection: $selectedDate, displayedComponents: [.date])
-                    .datePickerStyle(.graphical)
-                    .colorScheme(.dark)
-                    .onChange(of: selectedDate) { _, _ in calculatePanchang() }
-            }
-
-            // School
-            VStack(alignment: .leading, spacing: 8) {
-                Label("School", systemImage: "book.closed")
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundColor(.gray)
-                    .textCase(.uppercase)
-
-                Picker("", selection: $selectedSchool) {
-                    ForEach(SchoolPreset.allCases) { school in
-                        Text(school.displayName).tag(school)
-                    }
-                }
-                .pickerStyle(.segmented)
-                .onChange(of: selectedSchool) { _, _ in calculatePanchang() }
-            }
-
-            Spacer()
-
-            // Quick Actions
-            VStack(spacing: 10) {
-                quickActionButton(title: "Today", icon: "calendar.badge.clock", action: {
-                    selectedDate = Date()
-                    calculatePanchang()
-                })
-
-                quickActionButton(title: "Yesterday", icon: "chevron.left", action: {
-                    selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? Date()
-                    calculatePanchang()
-                })
-
-                quickActionButton(title: "Tomorrow", icon: "chevron.right", action: {
-                    selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? Date()
-                    calculatePanchang()
-                })
-            }
-
-            // Keyboard shortcuts
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Shortcuts")
-                    .font(.system(size: 10, weight: .semibold))
-                    .foregroundColor(.gray)
-
-                HStack {
-                    Text("T")
-                        .shortcutKey
-                    Text("Y")
-                        .shortcutKey
-                    Text("N")
-                        .shortcutKey
-                }
-            }
-        }
-        .padding(16)
-        .background(Color(hex: "#121212"))
-    }
-
-    private func quickActionButton(title: String, icon: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            HStack {
-                Image(systemName: icon)
-                    .font(.system(size: 12, weight: .medium))
-                Text(title)
-                    .font(.system(size: 13, weight: .medium))
-                Spacer()
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 10)
-            .background(Color(hex: "#3C3C3E"))
-            .cornerRadius(8)
-            .foregroundColor(.white)
-        }
-        .buttonStyle(.plain)
-    }
-
-    // MARK: - 2nd Panel - Results
+    // MARK: - Results Panel
     private var resultsPanel: some View {
         Group {
             if isLoading {
@@ -182,18 +106,26 @@ struct ContentView: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             } else if let result = panchangResult {
                 ScrollView {
-                    VStack(spacing: 16) {
-                        // Primary info - 2x3 grid
-                        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                    VStack(spacing: 12) {
+                        // Row 1: Samvatsaram, Ayanam
+                        HStack(spacing: 12) {
                             InfoTile(title: "Samvatsaram", value: result.panchangam.samvatsaram, icon: "sun.dust.fill", color: .yellow)
                             InfoTile(title: "Ayanam", value: result.panchangam.ayanam, icon: "arrow.up.arrow.down", color: .cyan)
+                        }
+
+                        // Row 2: Maasam, Vaaram
+                        HStack(spacing: 12) {
                             InfoTile(title: "Maasam", value: result.panchangam.maasam, icon: "moon.stars.fill", color: .purple)
                             InfoTile(title: "Vaaram", value: result.panchangam.vaaram.components(separatedBy: " (").first ?? "", icon: "calendar", color: .green)
+                        }
+
+                        // Row 3: Tithi, Nakshatram
+                        HStack(spacing: 12) {
                             InfoTile(title: "Tithi", value: result.panchangam.tithi.components(separatedBy: " until").first ?? "", icon: "moon.circle.fill", color: .orange)
                             InfoTile(title: "Nakshatram", value: result.panchangam.nakshatram.components(separatedBy: " until").first ?? "", icon: "sparkles", color: .pink)
                         }
 
-                        // Sunrise / Sunset
+                        // Row 4: Sunrise, Sunset
                         if let ss = result.panchangam.sunrise_sunset {
                             HStack(spacing: 12) {
                                 TimeTile(title: "Sunrise", time: ss.sunrise, icon: "sunrise.fill", color: .yellow)
@@ -201,7 +133,7 @@ struct ContentView: View {
                             }
                         }
 
-                        // Muhurtam
+                        // Row 5: Varjyam, Durmuhurtam, Rahukalam
                         if result.panchangam.varjyam != nil || result.panchangam.durmuhurtam != nil || result.panchangam.rahukalam != nil {
                             HStack(spacing: 12) {
                                 if let v = result.panchangam.varjyam {
@@ -216,9 +148,9 @@ struct ContentView: View {
                             }
                         }
 
-                        // Festivals
+                        // Row 6: Festivals
                         if !result.panchangam.festivals.isEmpty {
-                            VStack(alignment: .leading, spacing: 8) {
+                            VStack(alignment: .leading, spacing: 6) {
                                 Text("Festivals")
                                     .font(.system(size: 11, weight: .semibold))
                                     .foregroundColor(.gray)
@@ -228,33 +160,81 @@ struct ContentView: View {
                                     HStack {
                                         Image(systemName: festival.is_ekadashi == true ? "moon.stars.fill" : "sparkles")
                                             .foregroundColor(festival.is_ekadashi == true ? .orange : .yellow)
+                                            .font(.system(size: 11))
                                         Text(festival.name_en)
-                                            .font(.system(size: 13, weight: .medium))
+                                            .font(.system(size: 12, weight: .medium))
                                             .foregroundColor(.white)
                                         Spacer()
                                         if festival.is_ekadashi == true {
                                             Text("Ekadashi")
                                                 .font(.system(size: 9, weight: .medium))
                                                 .foregroundColor(.orange)
-                                                .padding(.horizontal, 6)
+                                                .padding(.horizontal, 5)
                                                 .padding(.vertical, 2)
                                                 .background(Color.orange.opacity(0.2))
                                                 .cornerRadius(4)
                                         }
                                     }
-                                    .padding(10)
+                                    .padding(8)
                                     .background(Color(hex: "#1E1E1E"))
-                                    .cornerRadius(8)
+                                    .cornerRadius(6)
                                 }
                             }
                         }
+
+                        // Quick Actions + Shortcuts
+                        HStack(spacing: 12) {
+                            quickActionButton(title: "Today", icon: "calendar.badge.clock", action: {
+                                selectedDate = Date()
+                                calculatePanchang()
+                            })
+
+                            quickActionButton(title: "Yesterday", icon: "chevron.left", action: {
+                                selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? Date()
+                                calculatePanchang()
+                            })
+
+                            quickActionButton(title: "Tomorrow", icon: "chevron.right", action: {
+                                selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? Date()
+                                calculatePanchang()
+                            })
+
+                            Spacer()
+
+                            HStack(spacing: 4) {
+                                Text("T")
+                                    .shortcutKey
+                                Text("Y")
+                                    .shortcutKey
+                                Text("N")
+                                    .shortcutKey
+                            }
+                        }
+                        .padding(.top, 4)
                     }
-                    .padding(20)
+                    .padding(16)
                 }
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(hex: "#0A0A0A"))
+    }
+
+    private func quickActionButton(title: String, icon: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            HStack(spacing: 4) {
+                Image(systemName: icon)
+                    .font(.system(size: 10, weight: .medium))
+                Text(title)
+                    .font(.system(size: 11, weight: .medium))
+            }
+            .padding(.horizontal, 10)
+            .padding(.vertical, 6)
+            .background(Color(hex: "#3C3C3E"))
+            .cornerRadius(5)
+            .foregroundColor(.white)
+        }
+        .buttonStyle(.plain)
     }
 
     private func calculatePanchang() {
@@ -281,22 +261,24 @@ struct InfoTile: View {
     let color: Color
 
     var body: some View {
-        VStack(spacing: 8) {
+        HStack(spacing: 12) {
             Image(systemName: icon)
-                .font(.system(size: 18))
+                .font(.system(size: 16))
                 .foregroundColor(color)
-            Text(value)
-                .font(.system(size: 13, weight: .bold))
-                .foregroundColor(.white)
-                .lineLimit(1)
-            Text(title)
-                .font(.system(size: 9, weight: .medium))
-                .foregroundColor(.gray)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundColor(.gray)
+                Text(value)
+                    .font(.system(size: 14, weight: .bold))
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+            }
+            Spacer()
         }
-        .frame(maxWidth: .infinity)
-        .padding(.vertical, 14)
+        .padding(12)
         .background(Color(hex: "#1E1E1E"))
-        .cornerRadius(12)
+        .cornerRadius(8)
     }
 }
 
@@ -310,9 +292,9 @@ struct TimeTile: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: icon)
-                .font(.system(size: 16))
+                .font(.system(size: 14))
                 .foregroundColor(color)
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 1) {
                 Text(title)
                     .font(.system(size: 10, weight: .medium))
                     .foregroundColor(.gray)
@@ -322,9 +304,9 @@ struct TimeTile: View {
             }
             Spacer()
         }
-        .padding(14)
+        .padding(12)
         .background(Color(hex: "#1E1E1E"))
-        .cornerRadius(12)
+        .cornerRadius(8)
     }
 }
 
@@ -335,7 +317,7 @@ struct MuhurtTile: View {
     let isGood: Bool
 
     var body: some View {
-        VStack(spacing: 4) {
+        VStack(spacing: 2) {
             Text(title)
                 .font(.system(size: 9, weight: .medium))
                 .foregroundColor(.gray)
@@ -344,9 +326,9 @@ struct MuhurtTile: View {
                 .foregroundColor(isGood ? Color(hex: "#4CAF50") : Color(hex: "#FF5252"))
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 12)
+        .padding(.vertical, 10)
         .background(Color(hex: "#2A2A2A"))
-        .cornerRadius(10)
+        .cornerRadius(6)
     }
 }
 
@@ -354,12 +336,12 @@ struct MuhurtTile: View {
 extension Text {
     var shortcutKey: some View {
         self
-            .font(.system(size: 10, weight: .medium, design: .monospaced))
+            .font(.system(size: 9, weight: .medium, design: .monospaced))
             .foregroundColor(.orange)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 2)
             .background(Color.orange.opacity(0.15))
-            .cornerRadius(4)
+            .cornerRadius(3)
     }
 }
 
