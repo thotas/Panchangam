@@ -111,6 +111,7 @@ struct ContentView: View {
                 }
                 .pickerStyle(.menu)
                 .labelsHidden()
+                .foregroundColor(.white)
                 .onChange(of: selectedLocation) { _, _ in calculatePanchang() }
             }
 
@@ -141,6 +142,7 @@ struct ContentView: View {
                 }
                 .pickerStyle(.menu)
                 .labelsHidden()
+                .foregroundColor(.white)
                 .onChange(of: selectedSchool) { _, _ in calculatePanchang() }
             }
 
