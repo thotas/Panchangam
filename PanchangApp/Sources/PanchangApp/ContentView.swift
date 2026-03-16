@@ -106,12 +106,12 @@ struct ContentView: View {
 
                 Picker("", selection: $selectedLocation) {
                     ForEach(LocationPreset.allCases) { loc in
-                        Text(loc.displayName).tag(loc)
+                        Text(loc.displayName).tag(loc).foregroundColor(.white)
                     }
                 }
                 .pickerStyle(.menu)
                 .labelsHidden()
-                .foregroundColor(.white)
+                .tint(.white)
                 .onChange(of: selectedLocation) { _, _ in calculatePanchang() }
             }
 
@@ -137,12 +137,12 @@ struct ContentView: View {
 
                 Picker("", selection: $selectedSchool) {
                     ForEach(SchoolPreset.allCases) { school in
-                        Text(school.displayName).tag(school)
+                        Text(school.displayName).tag(school).foregroundColor(.white)
                     }
                 }
                 .pickerStyle(.menu)
                 .labelsHidden()
-                .foregroundColor(.white)
+                .tint(.white)
                 .onChange(of: selectedSchool) { _, _ in calculatePanchang() }
             }
 
