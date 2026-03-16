@@ -19,9 +19,22 @@ struct ResultView: View {
                 
                 // Detailed Elements
                 VStack(spacing: 0) {
-                    detailRow(title: "Tithi", value: result.panchangam.tithi, icon: "moon.circle.fill")
+                    // Tithi with optional festival indicator
+                    tithiRow
                     Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
+
+                    // Next Tithi (conditional)
+                    if let nextTithi = result.panchangam.next_tithi {
+                        detailRow(title: "Next Tithi", value: "\(nextTithi.name) until \(nextTithi.ends_at)", icon: "moon.circle", iconColor: .orange)
+                        Divider().background(Color.white.opacity(0.1)).padding(.leading, 50)
+                    }
+
                     detailRow(title: "Nakshatram", value: result.panchangam.nakshatram, icon: "sparkles")
+
+                    // Next Nakshatram (conditional)
+                    if let nextNakshatram = result.panchangam.next_nakshatram {
+                        detailRow(title: "Next Nakshatram", value: "\(nextNakshatram.name) until \(nextNakshatram.ends_at)", icon: "sparkles", iconColor: .orange)
+                    }
                 }
                 .background(Color(red: 0.07, green: 0.07, blue: 0.07)) // Very dark grey, OLED friendly #121212
                 .cornerRadius(16)
@@ -75,6 +88,32 @@ struct ResultView: View {
         .shadow(color: Color.purple.opacity(0.1), radius: 20, x: 0, y: 10)
     }
     
+    // Tithi row with optional Ekadashi festival indicator
+    private var tithiRow: some View {
+        HStack {
+            Label("Tithi", systemImage: "moon.circle.fill")
+                .font(.system(size: 16, weight: .bold))
+                .foregroundColor(.white.opacity(0.7))
+                .frame(width: 150, alignment: .leading)
+
+            HStack(spacing: 8) {
+                Text(result.panchangam.tithi)
+                    .font(.system(size: 18, weight: .medium, design: .rounded))
+                    .foregroundColor(.white)
+
+                // Show Ekadashi festival indicator
+                if let ekadashi = result.panchangam.festivals.first(where: { $0.is_ekadashi == true }) {
+                    Text("(Festival Day: \(ekadashi.name_en))")
+                        .font(.system(size: 14, weight: .medium, design: .rounded))
+                        .foregroundColor(.orange)
+                }
+            }
+            Spacer()
+        }
+        .padding(.vertical, 20)
+        .padding(.horizontal, 24)
+    }
+
     private func infoCard(title: String, value: String, icon: String, hue: Color) -> some View {
         HStack(spacing: 20) {
             ZStack {
@@ -114,13 +153,13 @@ struct ResultView: View {
         .shadow(color: .black.opacity(0.5), radius: 10, x: 0, y: 5)
     }
     
-    private func detailRow(title: String, value: String, icon: String) -> some View {
+    private func detailRow(title: String, value: String, icon: String, iconColor: Color = .white.opacity(0.7)) -> some View {
         HStack {
             Label(title, systemImage: icon)
                 .font(.system(size: 16, weight: .bold))
-                .foregroundColor(.white.opacity(0.7))
+                .foregroundColor(iconColor)
                 .frame(width: 150, alignment: .leading)
-            
+
             Text(value)
                 .font(.system(size: 18, weight: .medium, design: .rounded))
                 .foregroundColor(.white)

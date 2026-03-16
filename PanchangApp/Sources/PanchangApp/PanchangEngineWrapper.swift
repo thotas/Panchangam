@@ -55,6 +55,11 @@ public struct TimedResultOut: Codable {
     public let end: String
 }
 
+public struct TimedInfoOut: Codable {
+    public let name: String
+    public let ends_at: String
+}
+
 public struct FestivalOut: Codable, Hashable, Identifiable {
     public let name_en: String
     public let name_te: String
@@ -71,6 +76,8 @@ public struct PanchangamOut: Codable {
     public let tithi: String
     public let paksha: String
     public let nakshatram: String
+    public let next_tithi: TimedInfoOut?
+    public let next_nakshatram: TimedInfoOut?
     public let sunrise_sunset: SunriseSunsetOut?
     public let varjyam: TimedResultOut?
     public let durmuhurtam: TimedResultOut?
