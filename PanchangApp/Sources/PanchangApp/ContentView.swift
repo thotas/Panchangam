@@ -111,7 +111,7 @@ struct ContentView: View {
                 }
                 .pickerStyle(.menu)
                 .labelsHidden()
-                .tint(.white)
+                .accentColor(.white)
                 .onChange(of: selectedLocation) { _, _ in calculatePanchang() }
             }
 
@@ -142,7 +142,7 @@ struct ContentView: View {
                 }
                 .pickerStyle(.menu)
                 .labelsHidden()
-                .tint(.white)
+                .accentColor(.white)
                 .onChange(of: selectedSchool) { _, _ in calculatePanchang() }
             }
 
