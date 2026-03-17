@@ -266,22 +266,10 @@ struct ContentView: View {
                             InfoTile(title: "Vaaram", value: result.panchangam.vaaram.components(separatedBy: " (").first ?? "", icon: "calendar", color: .green)
                         }
 
-                        // Row 3: Tithi, Nakshatram
+                        // Row 3: Tithi, Nakshatram (with next info inline)
                         HStack(spacing: 10) {
-                            TithiTile(title: "Tithi", value: result.panchangam.tithi, icon: "moon.circle.fill", color: .orange)
-                            NakshatramTile(title: "Nakshatram", value: result.panchangam.nakshatram, icon: "sparkles", color: .pink)
-                        }
-
-                        // Row 3b: Next Tithi, Next Nakshatram (if available)
-                        if result.panchangam.next_tithi != nil || result.panchangam.next_nakshatram != nil {
-                            HStack(spacing: 10) {
-                                if let nextT = result.panchangam.next_tithi {
-                                    NextTithiTile(title: "Next Tithi", value: "\(nextT.name) until \(nextT.ends_at)", icon: "moon.circle", color: .orange)
-                                }
-                                if let nextN = result.panchangam.next_nakshatram {
-                                    NextNakshatramTile(title: "Next Nakshatram", value: "\(nextN.name) until \(nextN.ends_at)", icon: "sparkles", color: .pink)
-                                }
-                            }
+                            TithiTile(title: "Tithi", value: result.panchangam.tithi, icon: "moon.circle.fill", color: .orange, nextInfo: result.panchangam.next_tithi)
+                            NakshatramTile(title: "Nakshatram", value: result.panchangam.nakshatram, icon: "sparkles", color: .pink, nextInfo: result.panchangam.next_nakshatram)
                         }
 
                         // Row 4: Sunrise, Sunset
@@ -394,23 +382,40 @@ struct InfoTile: View {
     }
 }
 
-// MARK: - Tithi Tile (with subscript until)
+// MARK: - Tithi Tile (with next info inline)
 struct TithiTile: View {
     let title: String
     let value: String
     let icon: String
     let color: Color
+    let nextInfo: TimedInfoOut?
 
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: icon)
                 .font(.system(size: 14))
                 .foregroundColor(color)
-            VStack(alignment: .leading, spacing: 1) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(title)
                     .font(.system(size: 9, weight: .medium))
                     .foregroundColor(.gray)
                 tithiText
+                if let next = nextInfo {
+                    HStack(alignment: .firstTextBaseline, spacing: 3) {
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 7))
+                            .foregroundColor(.white.opacity(0.3))
+                        Text(next.name)
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.6))
+                        Text("until")
+                            .font(.system(size: 8, weight: .medium))
+                            .foregroundColor(.gray)
+                        Text(next.ends_at)
+                            .font(.system(size: 9, weight: .medium))
+                            .foregroundColor(color.opacity(0.6))
+                    }
+                }
             }
             Spacer()
         }
@@ -443,23 +448,40 @@ struct TithiTile: View {
     }
 }
 
-// MARK: - Nakshatram Tile (with subscript until)
+// MARK: - Nakshatram Tile (with next info inline)
 struct NakshatramTile: View {
     let title: String
     let value: String
     let icon: String
     let color: Color
+    let nextInfo: TimedInfoOut?
 
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: icon)
                 .font(.system(size: 14))
                 .foregroundColor(color)
-            VStack(alignment: .leading, spacing: 1) {
+            VStack(alignment: .leading, spacing: 3) {
                 Text(title)
                     .font(.system(size: 9, weight: .medium))
                     .foregroundColor(.gray)
                 nakshatramText
+                if let next = nextInfo {
+                    HStack(alignment: .firstTextBaseline, spacing: 3) {
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 7))
+                            .foregroundColor(.white.opacity(0.3))
+                        Text(next.name)
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.6))
+                        Text("until")
+                            .font(.system(size: 8, weight: .medium))
+                            .foregroundColor(.gray)
+                        Text(next.ends_at)
+                            .font(.system(size: 9, weight: .medium))
+                            .foregroundColor(color.opacity(0.6))
+                    }
+                }
             }
             Spacer()
         }
@@ -470,104 +492,6 @@ struct NakshatramTile: View {
 
     @ViewBuilder
     private var nakshatramText: some View {
-        if let untilIndex = value.range(of: " until ") {
-            let namePart = String(value[..<untilIndex.lowerBound])
-            let timePart = String(value[untilIndex.upperBound...])
-            HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text(namePart)
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(.white)
-                Text("until")
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundColor(.gray)
-                Text(timePart)
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(.orange)
-            }
-        } else {
-            Text(value)
-                .font(.system(size: 13, weight: .bold))
-                .foregroundColor(.white)
-        }
-    }
-}
-
-// MARK: - Next Tithi Tile
-struct NextTithiTile: View {
-    let title: String
-    let value: String
-    let icon: String
-    let color: Color
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: icon)
-                .font(.system(size: 14))
-                .foregroundColor(color)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(title)
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundColor(.gray)
-                nextTithiText
-            }
-            Spacer()
-        }
-        .padding(10)
-        .background(Color(hex: "#2A2A2A"))
-        .cornerRadius(7)
-    }
-
-    @ViewBuilder
-    private var nextTithiText: some View {
-        if let untilIndex = value.range(of: " until ") {
-            let namePart = String(value[..<untilIndex.lowerBound])
-            let timePart = String(value[untilIndex.upperBound...])
-            HStack(alignment: .firstTextBaseline, spacing: 2) {
-                Text(namePart)
-                    .font(.system(size: 13, weight: .bold))
-                    .foregroundColor(.white)
-                Text("until")
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundColor(.gray)
-                Text(timePart)
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundColor(.orange)
-            }
-        } else {
-            Text(value)
-                .font(.system(size: 13, weight: .bold))
-                .foregroundColor(.white)
-        }
-    }
-}
-
-// MARK: - Next Nakshatram Tile
-struct NextNakshatramTile: View {
-    let title: String
-    let value: String
-    let icon: String
-    let color: Color
-
-    var body: some View {
-        HStack(spacing: 10) {
-            Image(systemName: icon)
-                .font(.system(size: 14))
-                .foregroundColor(color)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(title)
-                    .font(.system(size: 9, weight: .medium))
-                    .foregroundColor(.gray)
-                nextNakshatramText
-            }
-            Spacer()
-        }
-        .padding(10)
-        .background(Color(hex: "#2A2A2A"))
-        .cornerRadius(7)
-    }
-
-    @ViewBuilder
-    private var nextNakshatramText: some View {
         if let untilIndex = value.range(of: " until ") {
             let namePart = String(value[..<untilIndex.lowerBound])
             let timePart = String(value[untilIndex.upperBound...])

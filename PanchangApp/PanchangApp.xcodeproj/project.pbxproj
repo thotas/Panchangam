@@ -11,7 +11,6 @@
 		1D9724CD5DAF927332149AF9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9FE556DA7B5E2D9C26D4C175 /* Assets.xcassets */; };
 		369BB51A925A54DEFFDB1744 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F967F393FC9162577B74B44D /* SwiftUI.framework */; };
 		60483031974F9E2AEB3CDBCD /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C05332603E93CE08FD3FB25 /* AppKit.framework */; };
-		C5231483F44A0937DC15AB18 /* AppIcon_1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A75B00E4568AB95486915F7 /* AppIcon_1024.png */; };
 		D71F613CB44207061C205318 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB04FA051C25B70425F205F7 /* ContentView.swift */; };
 		DFEB2342E7719511276C1496 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C978A0181B1647D2382BD5F9 /* Foundation.framework */; };
 		E2C37710FDB69071ACB16397 /* ResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1185DD2AE6370714574B1918 /* ResultView.swift */; };
@@ -23,7 +22,6 @@
 		144C1A30A47BBFF535FA64EF /* PanchangApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PanchangApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C05332603E93CE08FD3FB25 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		4F880014C979825BC93DF547 /* PanchangApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PanchangApp.entitlements; sourceTree = "<group>"; };
-		7A75B00E4568AB95486915F7 /* AppIcon_1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppIcon_1024.png; sourceTree = "<group>"; };
 		7A91F9C16159859A735C58E4 /* PanchangApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanchangApp.swift; sourceTree = "<group>"; };
 		9FE556DA7B5E2D9C26D4C175 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C978A0181B1647D2382BD5F9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -59,7 +57,6 @@
 		A5F1635824249C7638E0174C /* PanchangApp */ = {
 			isa = PBXGroup;
 			children = (
-				7A75B00E4568AB95486915F7 /* AppIcon_1024.png */,
 				9FE556DA7B5E2D9C26D4C175 /* Assets.xcassets */,
 				CB04FA051C25B70425F205F7 /* ContentView.swift */,
 				FC57480C1D25BEF1F99894EB /* Info.plist */,
@@ -151,7 +148,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C5231483F44A0937DC15AB18 /* AppIcon_1024.png in Resources */,
 				1D9724CD5DAF927332149AF9 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

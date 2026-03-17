@@ -4,10 +4,10 @@ A native macOS application for calculating and displaying Hindu panchang (calend
 
 ## Features
 
-- **Tithi & Nakshatram**: Display current lunar day and star with end times
+- **Tithi & Nakshatram**: Display current lunar day and star with end times, plus next tithi/nakshatram shown inline when the current one ends before midnight
 - **Multiple Locations**: Support for Hyderabad, Dublin CA, Houston TX, New Jersey, and Philadelphia
 - **Three Schools**: Gantala, Nemani, and TTD tradition calculations
-- **Festivals**: Automatic festival detection including Ekadashi
+- **Festivals**: Comprehensive festival detection including Ekadashi, Diwali, Dussehra, Ganesh Chaturthi, Maha Shivaratri, Makara Sankranti, Bonalu, and more
 - **Sunrise/Sunset**: Accurate solar times for your location
 - **Muhurtams**: Varjyam, Durmuhurtam, and Rahukalam display
 - **Dark Mode UI**: Beautiful dark theme inspired by modern macOS design
