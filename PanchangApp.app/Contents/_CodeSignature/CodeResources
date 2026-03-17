@@ -5,26 +5,7 @@
 	<key>files</key>
 	<dict/>
 	<key>files2</key>
-	<dict>
-		<key>MacOS/PanchangApp.debug.dylib</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			TmUsowAMdMGbgbyCpw+6RXOM/Iw=
-			</data>
-			<key>requirement</key>
-			<string>cdhash H"4e652ca3000c74c19b81bc82a70fba45738cfc8c"</string>
-		</dict>
-		<key>MacOS/__preview.dylib</key>
-		<dict>
-			<key>cdhash</key>
-			<data>
-			KOnrWBybts0A3Mj41aqaR3xKzII=
-			</data>
-			<key>requirement</key>
-			<string>cdhash H"28e9eb581c9bb6cd00dcc8f8d5aa9a477c4acc82"</string>
-		</dict>
-	</dict>
+	<dict/>
 	<key>rules</key>
 	<dict>
 		<key>^Resources/</key>

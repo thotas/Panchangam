@@ -90,13 +90,14 @@ struct ResultView: View {
     
     // Tithi row with optional Ekadashi festival indicator
     private var tithiRow: some View {
-        HStack {
+        HStack(alignment: .top) {
             Label("Tithi", systemImage: "moon.circle.fill")
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(.white.opacity(0.7))
                 .frame(width: 150, alignment: .leading)
+                .lineLimit(2)
 
-            HStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: 4) {
                 Text(result.panchangam.tithi)
                     .font(.system(size: 18, weight: .medium, design: .rounded))
                     .foregroundColor(.white)
@@ -112,6 +113,7 @@ struct ResultView: View {
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 24)
+        .fixedSize(horizontal: false, vertical: true)
     }
 
     private func infoCard(title: String, value: String, icon: String, hue: Color) -> some View {
@@ -154,18 +156,21 @@ struct ResultView: View {
     }
     
     private func detailRow(title: String, value: String, icon: String, iconColor: Color = .white.opacity(0.7)) -> some View {
-        HStack {
+        HStack(alignment: .center) {
             Label(title, systemImage: icon)
                 .font(.system(size: 16, weight: .bold))
                 .foregroundColor(iconColor)
                 .frame(width: 150, alignment: .leading)
+                .lineLimit(2)
 
             Text(value)
                 .font(.system(size: 18, weight: .medium, design: .rounded))
                 .foregroundColor(.white)
+                .lineLimit(2)
             Spacer()
         }
         .padding(.vertical, 20)
         .padding(.horizontal, 24)
+        .fixedSize(horizontal: false, vertical: true)
     }
 }
