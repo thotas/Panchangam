@@ -127,6 +127,13 @@ cargo build --release --target universal-apple-darwin
 
 This generates `libpanchang_engine_universal.a` which the macOS app links against.
 
-## License
+### Python Icon Generator
+
+The app includes a Python script (`generate_icon.py`) that generates high-resolution app icons using PIL (Pillow). The icons follow an Apple News-inspired design with a deep purple/indigo gradient background, crescent moon, and stars.
+
+To regenerate icons:
+```bash
+python3 generate_icon.py
+```
 
 This project is for educational and personal use. The Swiss Ephemeris has its own licensing terms.
