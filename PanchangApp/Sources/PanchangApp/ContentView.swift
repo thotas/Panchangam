@@ -338,6 +338,7 @@ struct ContentView: View {
     }
 
     private func calculatePanchang() {
+        panchangResult = nil
         isLoading = true
         DispatchQueue.global(qos: .userInitiated).async {
             let result = PankajamEngine.calculate(
